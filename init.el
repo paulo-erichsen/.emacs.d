@@ -1,92 +1,90 @@
 ;;; .emacs.d/init.el -- the `user-init-file'
+;; this is a modified version of Batsov's init file for my needs
+;;
+;;; init.el --- Malkav's configuration entry point.
+;;
+;; Copyright (c) 2011-2016 Bozhidar Batsov
+;;
+;; Author: Bozhidar Batsov <bozhidar@batsov.com>
+;; URL: http://batsov.com/prelude
+;; Version: 1.0.0
+;; Keywords: convenience
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(opascal-indent-level 2) ;; set pascal to indent 2 spaces (default is 3)
- '(pascal-indent-level 2) ;; set pascal to indent 2 spaces (default is 3)
- '(markdown-command "/usr/bin/pandoc") ;; make markdown-mode use pandoc
- '(inhibit-startup-screen t))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+;; This file is not part of GNU Emacs.
 
-;; load some lisp scripts
-(add-to-list 'load-path "~/.emacs.d/lisp/")
-(load-file "~/.emacs.d/lisp/dired_open.el")
+;;; Commentary:
 
-;; scroll up/down w/ meta-up or meta-down
-(global-set-key [M-up]   (lambda () (interactive) (scroll-down 1)))
-(global-set-key [M-down] (lambda () (interactive) (scroll-up   1)))
+;; This file simply sets up the default load path and requires
+;; the various modules defined within Emacs Prelude.
 
-;; turn off Indent Tabs mode -> use spaces rather than tabs!!
-(setq-default indent-tabs-mode nil)
+;;; License:
 
-;; delete white-spaces on save
-(add-hook 'before-save-hook 'whitespace-cleanup)
+;; This program is free software; you can redistribute it and/or
+;; modify it under the terms of the GNU General Public License
+;; as published by the Free Software Foundation; either version 3
+;; of the License, or (at your option) any later version.
+;;
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+;;
+;; You should have received a copy of the GNU General Public License
+;; along with GNU Emacs; see the file COPYING.  If not, write to the
+;; Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+;; Boston, MA 02110-1301, USA.
 
-;; uncomment the following to display the line numbers and column numbers
-;; (global-linum-mode) ;; display line numbers
-(column-number-mode) ;; display column numbers
+;;; Code:
 
-;; Game Scores
-;; http://mewbies.com/emacs_basics_and_miscellaneous_trouble_shooting.htm
-;; http://mewbies.com/acute_terminal_fun_06_amusements_and_games_on_the_terminal.htm#emacs
-(setq tetris-score-file
-      "~/tmp/tetris-scores")
-(setq snake-score-file
-      "~/tmp/snake-scores")
+;; Always load newest byte code
+(setq load-prefer-newer t)
 
-;; Fortune path
-(require 'fortune)
-(setq fortune-dir "/usr/share/games/fortunes"
-      fortune-file "/usr/share/games/fortunes/fortunes")
+;; set some variables
+(defvar malkav-dir (file-name-directory load-file-name)
+  "The root dir of the Emacs Malkav distribution.")
+(defvar malkav-core-dir (expand-file-name "core" malkav-dir)
+  "The home of Malkav's core functionality.")
+(defvar malkav-modules-dir (expand-file-name  "modules" malkav-dir)
+  "This directory houses all of the built-in Malkav modules.")
+(defvar malkav-vendor-dir (expand-file-name "vendor" malkav-dir)
+  "This directory houses packages that are not yet available in ELPA (or MELPA).")
+(defvar malkav-savefile-dir (expand-file-name "savefile" malkav-dir)
+  "This folder stores all the automatically generated save/history-files.")
+(defvar malkav-modules-file (expand-file-name "malkav-modules.el" malkav-dir)
+  "This files contains a list of modules that will be loaded by Malkav.")
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Project specific configs ;;;;;;;;;;;;;;;;;
+(defun malkav-add-subfolders-to-load-path (parent-dir)
+ "Add all level PARENT-DIR subdirs to the `load-path'."
+ (dolist (f (directory-files parent-dir))
+   (let ((name (expand-file-name f parent-dir)))
+     (when (and (file-directory-p name)
+                (not (string-prefix-p "." f)))
+       (add-to-list 'load-path name)
+       (malkav-add-subfolders-to-load-path name)))))
 
-;; associate pascal files as opascal-mode
-(add-to-list 'auto-mode-alist '("\\.pas$" . opascal-mode))
-(let* ((pascal-files '(".pas" ".pp" ".inc" ".lpr" ".dpr"))
-       (pascal-regexp (concat (regexp-opt pascal-files t) "\\'")))
-  (add-to-list 'auto-mode-alist (cons pascal-regexp 'opascal-mode)))
+;; add Malkav's directories to Emacs's `load-path'
+(add-to-list 'load-path malkav-core-dir)
+(add-to-list 'load-path malkav-modules-dir)
+(add-to-list 'load-path malkav-vendor-dir)
+(malkav-add-subfolders-to-load-path malkav-vendor-dir)
 
-;; don't escape backslashes in pascal ~ http://emacs.stackexchange.com/a/20639/11226
-(add-hook 'opascal-mode-hook
-          (modify-syntax-entry ?\\ "."))
+;; the core stuff
+(require 'malkav-packages)
+;; (require 'malkav-custom)
+(require 'malkav-ui)
+(require 'malkav-core)
+;; (require 'malkav-mode)
+(require 'malkav-editor)
+(require 'malkav-global-keybindings)
 
-;; action script is not really javascript, but this kinda works for reading
-(add-to-list 'auto-mode-alist '("\\.as$" . javascript-mode))
+;; the modules
+(if (file-exists-p malkav-modules-file)
+    (load malkav-modules-file)
+  (message "Missing modules file %s" malkav-modules-file)
+  (message "You can get started by copying the bundled example file"))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; MELPA packages ;;;;;;;;;;;;;;;;;;;;;;;;;;
-(require 'package)
-(add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/") t)
+;; config changes made through the customize UI will be store here
+(setq custom-file (expand-file-name "custom.el" malkav-dir))
+(load-file custom-file)
 
-;; http://emacs.stackexchange.com/a/5888/11226
-(package-initialize) ;; this loads auto-complete into the path from MELPA
-(setq package-enable-at-startup nil) ;; don't initialize the package again `after-init-hook`
-
-;; auto-complete
-(require 'auto-complete-config)
-(ac-config-default)
-(add-to-list 'ac-dictionary-directories "~/.dict/") ;; add custom dictionary folder
-(add-to-list 'ac-modes 'opascal-mode) ;; enable AC automatically for specific modes
-
-;; TODO:
-;; - remove the elpa folder from the repository
-;; - add code to auto-install/refresh some packages. (auto-complete, lua-mode, markdown-mode, rubocop)
-;;   some examples: (search for package-initialize, auto-complete, and use-package, require-package, company)
-;;     https://github.com/bbatsov/prelude/blob/master/init.el -> https://github.com/bbatsov/prelude/blob/master/core/prelude-packages.el
-;;     https://github.com/purcell/emacs.d/blob/master/init.el
-;;     https://github.com/magnars/.emacs.d/blob/master/init.el
-;;     https://github.com/skeeto/.emacs.d/blob/master/init.el
-;;     http://stackoverflow.com/a/31080940/2261947
-;;     https://github.com/jwiegley/use-package/issues/219
-;;     https://github.com/thomasf/dotfiles-thomasf-emacs/blob/master/emacs.d/init.el
-;;     https://github.com/jimeh/.emacs.d/blob/master/core/siren-packages.el
-;;     https://github.com/catatsuy/dot.emacs.d/blob/master/init.el
+;;; init.el ends here
