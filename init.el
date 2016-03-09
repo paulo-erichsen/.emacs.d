@@ -70,7 +70,7 @@
 
 ;; the core stuff
 (require 'malkav-packages)
-;; (require 'malkav-custom)
+(require 'malkav-custom)
 (require 'malkav-ui)
 (require 'malkav-core)
 ;; (require 'malkav-mode)

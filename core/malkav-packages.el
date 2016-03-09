@@ -43,7 +43,7 @@
 ;; set package-user-dir to be relative to Malkav install path
 (setq package-user-dir (expand-file-name "elpa" malkav-dir))
 (package-initialize)  ;; this loads auto-complete into the path from MELPA
-(setq package-enable-at-startup nil) ;; don't initialize the package again `after-init-hook`
+;;(setq package-enable-at-startup nil) ;; don't initialize the package again `after-init-hook`
 
 (defvar malkav-packages
   '(
@@ -56,29 +56,29 @@
     ;; anzu
     ;; beacon
     ;; browse-kill-ring
-    ;; dash
+    dash
     ;; discover-my-major
     ;; diff-hl
     ;; diminish
     ;; easy-kill
     ;; epl
     ;; expand-region
-    ;; flycheck
-    ;; gist
-    ;; git-timemachine
+    flycheck
+    gist
+    git-timemachine
     gitconfig-mode
     gitignore-mode
     ;; god-mode
     ;; grizzl
     guru-mode
-    ;; imenu-anywhere
+    imenu-anywhere
     ;; ov
     ;; projectile
     magit
     ;; move-text
     ;; operate-on-number
-    ;; smart-mode-line
-    ;; smartparens
+    smart-mode-line
+    smartparens
     ;; smartrep
     ;; undo-tree
     ;; volatile-highlights
@@ -104,8 +104,6 @@
 Missing packages are installed automatically."
   (mapc #'malkav-require-package packages))
 
-(define-obsolete-function-alias 'malkav-ensure-module-deps 'malkav-require-packages)
-
 (defun malkav-install-packages ()
   "Install all packages listed in `malkav-packages'."
   (unless (malkav-packages-installed-p)
@@ -118,6 +116,82 @@ Missing packages are installed automatically."
 
 ;; run package installation
 (malkav-install-packages)
+
+(defmacro malkav-auto-install (extension package mode)
+    "When file with EXTENSION is opened triggers auto-install of PACKAGE.
+PACKAGE is installed only if not already present.  The file is opened in MODE."
+    `(add-to-list 'auto-mode-alist
+                  `(,extension . (lambda ()
+                                   (unless (package-installed-p ',package)
+                                     (package-install ',package))
+                                   (,mode)))))
+
+(defvar malkav-auto-install-alist
+  '(("\\.as\\'" actionscript-mode actionscript-mode)
+    ("\\.clj\\'" clojure-mode clojure-mode)
+    ("\\.cmake\\'" cmake-mode cmake-mode)
+    ("CMakeLists\\.txt\\'" cmake-mode cmake-mode)
+    ("\\.coffee\\'" coffee-mode coffee-mode)
+    ("\\.css\\'" css-mode css-mode)
+    ("\\.csv\\'" csv-mode csv-mode)
+    ("\\.d\\'" d-mode d-mode)
+    ("\\.dart\\'" dart-mode dart-mode)
+    ("\\.elm\\'" elm-mode elm-mode)
+    ("\\.ex\\'" elixir-mode elixir-mode)
+    ("\\.exs\\'" elixir-mode elixir-mode)
+    ("\\.elixir\\'" elixir-mode elixir-mode)
+    ("\\.erl\\'" erlang erlang-mode)
+    ("\\.feature\\'" feature-mode feature-mode)
+    ("\\.go\\'" go-mode go-mode)
+    ("\\.groovy\\'" groovy-mode groovy-mode)
+    ("\\.haml\\'" haml-mode haml-mode)
+    ("\\.hs\\'" haskell-mode haskell-mode)
+    ("\\.json\\'" json-mode json-mode)
+    ("\\.kv\\'" kivy-mode kivy-mode)
+    ("\\.latex\\'" auctex LaTeX-mode)
+    ("\\.less\\'" less-css-mode less-css-mode)
+    ("\\.lua\\'" lua-mode lua-mode)
+    ("\\.markdown\\'" markdown-mode markdown-mode)
+    ("\\.md\\'" markdown-mode markdown-mode)
+    ("\\.ml\\'" tuareg tuareg-mode)
+    ("\\.pp\\'" puppet-mode puppet-mode)
+    ("\\.php\\'" php-mode php-mode)
+    ("\\.proto\\'" protobuf-mode protobuf-mode)
+    ("\\.pyd\\'" cython-mode cython-mode)
+    ("\\.pyi\\'" cython-mode cython-mode)
+    ("\\.pyx\\'" cython-mode cython-mode)
+    ("PKGBUILD\\'" pkgbuild-mode pkgbuild-mode)
+    ("\\.rs\\'" rust-mode rust-mode)
+    ("\\.sass\\'" sass-mode sass-mode)
+    ("\\.scala\\'" scala-mode2 scala-mode)
+    ("\\.scss\\'" scss-mode scss-mode)
+    ("\\.slim\\'" slim-mode slim-mode)
+    ("\\.styl\\'" stylus-mode stylus-mode)
+    ("\\.swift\\'" swift-mode swift-mode)
+    ("\\.textile\\'" textile-mode textile-mode)
+    ("\\.thrift\\'" thrift thrift-mode)
+    ("\\.yml\\'" yaml-mode yaml-mode)
+    ("\\.yaml\\'" yaml-mode yaml-mode)
+    ("Dockerfile\\'" dockerfile-mode dockerfile-mode)))
+
+;; markdown-mode doesn't have autoloads for the auto-mode-alist
+;; so we add them manually if it's already installed
+(when (package-installed-p 'markdown-mode)
+  (add-to-list 'auto-mode-alist '("\\.markdown\\'" . gfm-mode))
+  (add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode)))
+
+(when (package-installed-p 'pkgbuild-mode)
+  (add-to-list 'auto-mode-alist '("PKGBUILD\\'" . pkgbuild-mode)))
+
+;; build auto-install mappings
+(mapc
+ (lambda (entry)
+   (let ((extension (car entry))
+         (package (cadr entry))
+         (mode (cadr (cdr entry))))
+     (unless (package-installed-p package)
+       (malkav-auto-install extension package mode))))
+ malkav-auto-install-alist)
 
 (provide 'malkav-packages)
 
