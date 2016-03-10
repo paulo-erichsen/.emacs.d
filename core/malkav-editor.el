@@ -22,6 +22,6 @@
     (whitespace-cleanup)))
 
 (add-hook 'text-mode-hook 'malkav-enable-flyspell)
-(add-hook 'text-mode-hook 'malkav-enable-whitespace)
+;; (add-hook 'text-mode-hook 'malkav-enable-whitespace)
 
 (provide 'malkav-editor)

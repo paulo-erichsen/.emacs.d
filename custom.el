@@ -15,6 +15,9 @@
  ;; If there is more than one, they won't work right.
  )
 
+;; follow symbolic links to Git-controlled source files
+(setq vc-follow-symlinks t)
+
 ;; location of game score files
 (setq tetris-score-file "~/tmp/tetris-scores")
 (setq snake-score-file "~/tmp/snake-scores")
