@@ -2,4 +2,7 @@
 ;; (global-linum-mode) ;; display line numbers
 (column-number-mode) ;; display column numbers
 
+(malkav-require-package 'cyberpunk-theme)
+(load-theme 'cyberpunk t)
+
 (provide 'malkav-ui)

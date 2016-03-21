@@ -8,7 +8,7 @@
   :type 'boolean
   :group 'malkav)
 
-(defcustom malkav-whitespace t
+(defcustom malkav-whitespace nil
   "Non-nil values enable Malkav's whitespace visualization."
   :type 'boolean
   :group 'malkav)
