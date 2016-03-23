@@ -47,44 +47,19 @@
 
 (defvar malkav-packages
   '(
-    auto-complete
-    lua-mode
-    markdown-mode
-    rubocop
-    ;; ace-window
-    ;; avy
-    ;; anzu
-    ;; beacon
-    ;; browse-kill-ring
     dash
-    ;; discover-my-major
-    ;; diff-hl
-    ;; diminish
-    ;; easy-kill
-    ;; epl
-    ;; expand-region
     flycheck
+    guru-mode
+    auto-complete
+    ;; git stuff
     gist
+    magit
     git-timemachine
     gitconfig-mode
     gitignore-mode
-    ;; god-mode
-    ;; grizzl
-    guru-mode
-    imenu-anywhere
-    ;; ov
-    ;; projectile
-    magit
-    ;; move-text
-    ;; operate-on-number
-    smart-mode-line
-    smartparens
-    ;; smartrep
-    ;; undo-tree
-    ;; volatile-highlights
-    ;; zenburn-theme
-    gist
-    ;; zop-to-char
+    ;; other major modes
+    lua-mode
+    markdown-mode
     )
   "A list of packages to ensure are installed at launch.")
 

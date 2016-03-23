@@ -58,10 +58,10 @@ This functions should be added to the hooks of major modes for programming."
 ;; (the final optional t sets the *append* argument)
 
 ;; smart curly braces
-(require 'smartparens)
-(sp-pair "{" nil :post-handlers
-         '(((lambda (&rest _ignored)
-              (malkav-smart-open-line-above)) "RET")))
+;; (require 'smartparens)
+;; (sp-pair "{" nil :post-handlers
+;;          '(((lambda (&rest _ignored)
+;;               (malkav-smart-open-line-above)) "RET")))
 
 ;; enlist a more liberal guru
 (setq guru-warn-only t)
@@ -73,8 +73,8 @@ This functions should be added to the hooks of major modes for programming."
     (flyspell-prog-mode))
   (when malkav-guru
     (guru-mode +1))
-  (smartparens-mode +1)
-  ;; (malkav-enable-whitespace)
+  ;; (smartparens-mode +1)
+  (malkav-enable-whitespace)
   (malkav-local-comment-auto-fill)
   (malkav-font-lock-comment-annotations))
 
@@ -86,7 +86,7 @@ This functions should be added to the hooks of major modes for programming."
 ;; enable on-the-fly syntax checking
 (if (fboundp 'global-flycheck-mode)
     (global-flycheck-mode +1)
-  (add-hook 'prog-mode-hook 'flycheck-mode))
+    (add-hook 'prog-mode-hook 'flycheck-mode))
 
 (provide 'malkav-programming)
 ;;; malkav-programming.el ends here

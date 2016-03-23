@@ -1,9 +1,9 @@
-(defcustom malkav-flyspell t
+(defcustom malkav-flyspell nil
   "Non-nil values enable Malkav's flyspell support."
   :type 'boolean
   :group 'malkav)
 
-(defcustom malkav-guru t
+(defcustom malkav-guru nil
   "Non-nil values enable `guru-mode'."
   :type 'boolean
   :group 'malkav)
