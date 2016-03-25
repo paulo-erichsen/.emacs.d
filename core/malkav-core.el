@@ -1,3 +1,5 @@
+;;; Code:
+
 ;; open files from emacs in dired ~ select the line, then hit "C-c o" to open
 ;; http://www.emacswiki.org/emacs/OperatingOnFilesInDired
 (require 'dired)
@@ -17,4 +19,11 @@ Position the cursor at it's beginning, according to the current mode."
     (forward-line -1)
     (indent-according-to-mode))
 
+(defun malkav-wrap-with (s)
+  "Create a wrapper function for smartparens using S."
+  `(lambda (&optional arg)
+     (interactive "P")
+     (sp-wrap-with-pair ,s)))
+
 (provide 'malkav-core)
+;;; malkav-core.el ends here

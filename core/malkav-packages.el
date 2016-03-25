@@ -50,6 +50,8 @@
     dash
     flycheck
     guru-mode
+    diminish
+    smartparens
     auto-complete
     ;; git stuff
     gist
