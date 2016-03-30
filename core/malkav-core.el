@@ -19,6 +19,11 @@ Position the cursor at it's beginning, according to the current mode."
     (forward-line -1)
     (indent-according-to-mode))
 
+(defun malkav-recompile-init ()
+  "Byte-compile all your dotfiles again."
+  (interactive)
+  (byte-recompile-directory malkav-dir 0))
+
 (defun malkav-wrap-with (s)
   "Create a wrapper function for smartparens using S."
   `(lambda (&optional arg)
