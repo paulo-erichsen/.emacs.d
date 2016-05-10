@@ -6,10 +6,6 @@
 
 ;;; Code:
 
-;; turn off Indent Tabs mode -> use spaces rather than tabs!!
-;; toggle while emacs is opened: M-x customize-group -> indent -> toggle -> apply
-(setq-default indent-tabs-mode nil)
-
 ;; delete white-spaces on save
 (add-hook 'before-save-hook 'whitespace-cleanup)
 
