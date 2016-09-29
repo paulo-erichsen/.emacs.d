@@ -1,3 +1,8 @@
+;;; custom.el --- custom variables
+
+;;; Commentary:
+
+;;; Code:
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -11,7 +16,9 @@
  '(inhibit-startup-screen t)
  '(markdown-command "/usr/bin/pandoc")
  '(opascal-indent-level 2)
- '(pascal-indent-level 2))
+ '(pascal-indent-level 2)
+ '(sort-fold-case t t)
+ )
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -34,3 +41,6 @@
 (require 'fortune)
 (setq fortune-dir "/usr/share/games/fortunes"
       fortune-file "/usr/share/games/fortunes/fortunes")
+
+(provide 'custom)
+;;; custom.el ends here
