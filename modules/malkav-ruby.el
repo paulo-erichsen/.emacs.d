@@ -34,7 +34,7 @@
 
 (require 'malkav-programming)
 
-(malkav-require-packages '(ruby-tools inf-ruby yari rubocop rspec-mode rvm bundler))
+(malkav-require-packages '(ruby-tools inf-ruby yari rubocop rspec-mode rbenv bundler))
 (require 'ruby-tools)
 
 ;; Rake files are ruby, too, as are gemspecs, rackup files, and gemfiles.
