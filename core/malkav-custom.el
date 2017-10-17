@@ -3,7 +3,7 @@
   :type 'boolean
   :group 'malkav)
 
-(defcustom malkav-guru nil
+(defcustom malkav-guru t
   "Non-nil values enable `guru-mode'."
   :type 'boolean
   :group 'malkav)
