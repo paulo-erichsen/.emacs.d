@@ -52,7 +52,7 @@
     guru-mode
     diminish
     smartparens
-    auto-complete
+    ;; auto-complete
     ;; git stuff
     gist
     magit

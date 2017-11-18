@@ -29,4 +29,10 @@
 ;; (add-hook 'text-mode-hook 'malkav-enable-flyspell)
 ;; (add-hook 'text-mode-hook 'malkav-enable-whitespace)
 
+;; store all backup files and autosave files in the tmp dir ;; `echo $TMPDIR`
+(setq backup-directory-alist
+      `((".*" . ,temporary-file-directory)))
+(setq auto-save-file-name-transforms
+      `((".*" ,temporary-file-directory t)))
+
 (provide 'malkav-editor)

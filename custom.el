@@ -19,7 +19,7 @@
  '(opascal-indent-level 2)
  '(package-selected-packages
    (quote
-    (rainbow-mode elisp-slime-nav rainbow-delimiters bundler rbenv rspec-mode rubocop yari inf-ruby ruby-tools cyberpunk-theme markdown-mode lua-mode gitignore-mode gitconfig-mode git-timemachine magit gist auto-complete smartparens diminish guru-mode flycheck dash)))
+    (flycheck-clang-tidy clang-format yaml-mode rainbow-mode elisp-slime-nav rainbow-delimiters bundler rbenv rspec-mode rubocop yari inf-ruby ruby-tools cyberpunk-theme markdown-mode lua-mode gitignore-mode gitconfig-mode git-timemachine magit gist auto-complete smartparens diminish guru-mode flycheck dash)))
  '(pascal-indent-level 2)
  '(sort-fold-case t t))
 (custom-set-faces
