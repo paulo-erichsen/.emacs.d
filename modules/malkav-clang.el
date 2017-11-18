@@ -18,7 +18,7 @@
 ;; auto-format when saving c++ code
 (add-hook 'c++-mode-hook
     (lambda()
-        (add-hook 'before-save-hook 'clang-format-buffer)))
+        (add-hook 'before-save-hook #'clang-format-buffer nil t)))
 
 (provide 'malkav-clang)
 ;;; malkav-clang.el ends here
