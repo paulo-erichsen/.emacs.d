@@ -38,7 +38,7 @@
 (require 'cl)
 (require 'package)
 (add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/") t)
+	     '("melpa" . "https://melpa.org/packages/") t)
 
 ;; set package-user-dir to be relative to Malkav install path
 (setq package-user-dir (expand-file-name "elpa" malkav-dir))
@@ -53,6 +53,7 @@
     diminish
     smartparens
     ;; auto-complete
+    company
     ;; git stuff
     gist
     magit
@@ -98,10 +99,10 @@ Missing packages are installed automatically."
     "When file with EXTENSION is opened triggers auto-install of PACKAGE.
 PACKAGE is installed only if not already present.  The file is opened in MODE."
     `(add-to-list 'auto-mode-alist
-                  `(,extension . (lambda ()
-                                   (unless (package-installed-p ',package)
-                                     (package-install ',package))
-                                   (,mode)))))
+		  `(,extension . (lambda ()
+				   (unless (package-installed-p ',package)
+				     (package-install ',package))
+				   (,mode)))))
 
 (defvar malkav-auto-install-alist
   '(("\\.as\\'" actionscript-mode actionscript-mode)
@@ -164,8 +165,8 @@ PACKAGE is installed only if not already present.  The file is opened in MODE."
 (mapc
  (lambda (entry)
    (let ((extension (car entry))
-         (package (cadr entry))
-         (mode (cadr (cdr entry))))
+	 (package (cadr entry))
+	 (mode (cadr (cdr entry))))
      (unless (package-installed-p package)
        (malkav-auto-install extension package mode))))
  malkav-auto-install-alist)
