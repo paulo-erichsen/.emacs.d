@@ -21,7 +21,12 @@
    (quote
     (json-mode flycheck-clang-tidy clang-format yaml-mode rainbow-mode elisp-slime-nav rainbow-delimiters bundler rbenv rspec-mode rubocop yari inf-ruby ruby-tools cyberpunk-theme markdown-mode lua-mode gitignore-mode gitconfig-mode git-timemachine magit gist auto-complete smartparens diminish guru-mode flycheck dash)))
  '(pascal-indent-level 2)
- '(safe-local-variable-values (quote ((flycheck-gcc-language-standard . c++11))))
+ '(safe-local-variable-values
+   (quote
+    ((flycheck-gcc-language-standard . "c++11")
+     (flycheck-clang-language-standard . "c++11")
+     (flycheck-gcc-language-standard . "c++14")
+     (flycheck-clang-language-standard . "c++14"))))
  '(sort-fold-case t t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
