@@ -41,7 +41,7 @@
 This functions should be added to the hooks of major modes for programming."
   (font-lock-add-keywords
    nil '(("\\<\\(\\(FIX\\(ME\\)?\\|TODO\\|OPTIMIZE\\|HACK\\|REFACTOR\\):\\)"
-          1 font-lock-warning-face t))))
+	  1 font-lock-warning-face t))))
 
 ;; show the name of the current function definition in the modeline
 (require 'which-func)
@@ -69,20 +69,20 @@ This functions should be added to the hooks of major modes for programming."
 (defun malkav-prog-mode-defaults ()
   "Default coding hook, useful with any programming language."
   (when (and (executable-find ispell-program-name)
-             malkav-flyspell)
+	     malkav-flyspell)
     (flyspell-prog-mode))
   (when malkav-guru
     (guru-mode +1))
   ;; (smartparens-mode +1)
   (malkav-enable-whitespace)
   (malkav-local-comment-auto-fill)
-  ;; (malkav-font-lock-comment-annotations))
+  (malkav-font-lock-comment-annotations)
   )
 
 (setq malkav-prog-mode-hook 'malkav-prog-mode-defaults)
 
 (add-hook 'prog-mode-hook (lambda ()
-                            (run-hooks 'malkav-prog-mode-hook)))
+			    (run-hooks 'malkav-prog-mode-hook)))
 
 ;; enable on-the-fly syntax checking
 (if (fboundp 'global-flycheck-mode)
