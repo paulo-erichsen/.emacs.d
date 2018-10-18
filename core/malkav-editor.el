@@ -6,6 +6,10 @@
 
 ;;; Code:
 
+(setq-default indent-tabs-mode nil) ;; don't use tabs to indent
+(setq-default tab-width 8)          ;; but maintain correct appearance
+(setq require-final-newline t)      ;; newline at the end of file
+
 ;; delete white-spaces on save
 (add-hook 'before-save-hook 'whitespace-cleanup)
 
