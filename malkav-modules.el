@@ -1,7 +1,7 @@
 (require 'malkav-company)
 ;; (require 'malkav-auto-complete)
 (require 'malkav-c)
-(require 'malkav-clang)
+;; (require 'malkav-clang)
 (require 'malkav-emacs-lisp)
 ;; (require 'malkav-opascal)
 (require 'malkav-python)
