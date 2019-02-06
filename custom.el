@@ -18,12 +18,27 @@
  '(opascal-indent-level 2)
  '(package-selected-packages
    (quote
-    (dumb-jump cmake-mode json-mode flycheck-clang-tidy clang-format yaml-mode rainbow-mode elisp-slime-nav rainbow-delimiters bundler rbenv rspec-mode rubocop yari inf-ruby ruby-tools cyberpunk-theme markdown-mode lua-mode gitignore-mode gitconfig-mode git-timemachine magit gist auto-complete smartparens diminish guru-mode flycheck dash)))
+    (flycheck-irony groovy-mode dockerfile-mode dumb-jump cmake-mode json-mode flycheck-clang-tidy clang-format yaml-mode rainbow-mode elisp-slime-nav rainbow-delimiters bundler rbenv rspec-mode rubocop yari inf-ruby ruby-tools cyberpunk-theme markdown-mode lua-mode gitignore-mode gitconfig-mode git-timemachine magit gist auto-complete smartparens diminish guru-mode flycheck dash)))
  '(pascal-indent-level 2)
  '(read-file-name-completion-ignore-case nil)
  '(safe-local-variable-values
    (quote
-    ((whitespace-newline . t)
+    ((eval c-set-offset
+           (quote arglist-close)
+           0)
+     (eval c-set-offset
+           (quote arglist-intro)
+           (quote ++))
+     (eval c-set-offset
+           (quote case-label)
+           0)
+     (eval c-set-offset
+           (quote statement-case-open)
+           0)
+     (eval c-set-offset
+           (quote substatement-open)
+           0)
+     (whitespace-newline . t)
      (whitespace-style face trailing lines-tail space-before-tab indentation empty)
      (whitespace-action warn-read-only auto-cleanup)
      (flycheck-gcc-language-standard . c++11)

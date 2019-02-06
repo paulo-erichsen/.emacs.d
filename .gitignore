@@ -5,3 +5,5 @@ elpa
 *.elc
 var/
 tramp
+anaconda-mode
+irony

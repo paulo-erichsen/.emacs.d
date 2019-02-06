@@ -62,8 +62,13 @@
     gitignore-mode
     ;; other major modes
     blacken
+    cmake-mode
+    dockerfile-mode
+    groovy-mode
+    json-mode
     lua-mode
     markdown-mode
+    yaml-mode
     )
   "A list of packages to ensure are installed at launch.")
 

@@ -54,6 +54,7 @@
 
 (add-hook 'makefile-mode-hook (lambda ()
                                 (run-hooks 'malkav-makefile-mode-hook)))
+
 (provide 'malkav-c)
 
 ;;; malkav-c.el ends here
