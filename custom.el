@@ -70,5 +70,8 @@
 (setq fortune-dir "/usr/share/games/fortunes"
       fortune-file "/usr/share/games/fortunes/fortunes")
 
+;; robot-framework (python)
+(load-file (expand-file-name "robot-mode.el" malkav-vendor-dir))
+
 (provide 'custom)
 ;;; custom.el ends here
