@@ -18,7 +18,7 @@
  '(opascal-indent-level 2)
  '(package-selected-packages
    (quote
-    (flycheck-irony groovy-mode dockerfile-mode dumb-jump cmake-mode json-mode flycheck-clang-tidy clang-format yaml-mode rainbow-mode elisp-slime-nav rainbow-delimiters bundler rbenv rspec-mode rubocop yari inf-ruby ruby-tools cyberpunk-theme markdown-mode lua-mode gitignore-mode gitconfig-mode git-timemachine magit gist auto-complete smartparens diminish guru-mode flycheck dash)))
+    (flycheck-irony groovy-mode dockerfile-mode dumb-jump cmake-mode json-mode flycheck-clang-tidy clang-format yaml-mode rainbow-mode elisp-slime-nav rainbow-delimiters bundler rbenv rspec-mode rubocop yari inf-ruby ruby-tools cyberpunk-theme markdown-mode lua-mode gitignore-mode gitconfig-mode git-timemachine magit auto-complete smartparens guru-mode flycheck)))
  '(pascal-indent-level 2)
  '(read-file-name-completion-ignore-case nil)
  '(safe-local-variable-values

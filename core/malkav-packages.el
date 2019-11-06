@@ -42,20 +42,16 @@
 
 ;; set package-user-dir to be relative to Malkav install path
 (setq package-user-dir (expand-file-name "elpa" malkav-dir))
-(package-initialize)  ;; this loads auto-complete into the path from MELPA
-;;(setq package-enable-at-startup nil) ;; don't initialize the package again `after-init-hook`
+(package-initialize)
 
 (defvar malkav-packages
   '(
-    dash
     flycheck
     guru-mode
     diminish
     smartparens
-    ;; auto-complete
     company
     ;; git stuff
-    gist
     magit
     git-timemachine
     gitconfig-mode
