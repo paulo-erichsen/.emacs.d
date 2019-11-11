@@ -90,6 +90,10 @@
   (message "Missing modules file %s" malkav-modules-file)
   (message "You can get started by copying the bundled example file"))
 
+;; Linux specific settings
+(when (eq system-type 'gnu/linux)
+  (require 'malkav-linux))
+
 ;; config changes made through the customize UI will be store here
 (setq custom-file (expand-file-name "custom.el" malkav-dir))
 (load-file custom-file)
