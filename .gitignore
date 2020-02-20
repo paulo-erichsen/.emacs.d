@@ -3,8 +3,7 @@
 auto-save-list
 elpa
 *.elc
-var/
 tramp
 anaconda-mode
-irony
 transient
+/recentf
