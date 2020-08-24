@@ -42,7 +42,8 @@
 
 ;; set package-user-dir to be relative to Malkav install path
 (setq package-user-dir (expand-file-name "elpa" malkav-dir))
-(package-initialize)
+(when (< emacs-major-version 27)
+  (require 'package-initialize))
 
 (defvar malkav-packages
   '(
