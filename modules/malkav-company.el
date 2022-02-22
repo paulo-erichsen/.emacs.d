@@ -34,6 +34,7 @@
 (malkav-require-packages '(company))
 
 (require 'company)
+(require 'diminish)
 
 (setq company-idle-delay 0.5)
 (setq company-show-numbers t)
@@ -45,6 +46,7 @@
 (setq company-tooltip-flip-when-above t)
 
 (global-company-mode 1)
+(diminish 'company-mode)
 
 (provide 'malkav-company)
 ;;; malkav-company.el ends here

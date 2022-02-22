@@ -35,15 +35,14 @@
 
 ;;; Code:
 
-(require 'cl)
+(require 'cl-lib)
 (require 'package)
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/") t)
 
 ;; set package-user-dir to be relative to Malkav install path
 (setq package-user-dir (expand-file-name "elpa" malkav-dir))
-(when (< emacs-major-version 27)
-  (require 'package-initialize))
+(package-initialize)
 
 (defvar malkav-packages
   '(
@@ -55,8 +54,7 @@
     ;; git stuff
     magit
     git-timemachine
-    gitconfig-mode
-    gitignore-mode
+    git-modes
     ;; other major modes
     blacken
     cmake-mode
@@ -71,7 +69,7 @@
 
 (defun malkav-packages-installed-p ()
   "Check if all packages in `malkav-packages' are installed."
-  (every #'package-installed-p malkav-packages))
+  (cl-every #'package-installed-p malkav-packages))
 
 (defun malkav-require-package (package)
   "Install PACKAGE unless already installed."
@@ -98,6 +96,17 @@ Missing packages are installed automatically."
 ;; run package installation
 (malkav-install-packages)
 
+(defun malkav-list-foreign-packages ()
+  "Browse third-party packages not bundled with Malkav.
+Behaves similarly to `package-list-packages', but shows only the packages that
+are installed and are not in `malkav-packages'.  Useful for
+removing unwanted packages."
+  (interactive)
+  (package-show-package-list
+   (cl-set-difference package-activated-list malkav-packages)))
+
+;;;; Auto-installation of major modes on demand
+
 (defmacro malkav-auto-install (extension package mode)
     "When file with EXTENSION is opened triggers auto-install of PACKAGE.
 PACKAGE is installed only if not already present.  The file is opened in MODE."
@@ -108,13 +117,17 @@ PACKAGE is installed only if not already present.  The file is opened in MODE."
                                    (,mode)))))
 
 (defvar malkav-auto-install-alist
-  '(("\\.as\\'" actionscript-mode actionscript-mode)
+  '(("\\.adoc\\'" adoc-mode adoc-mode)
     ("\\.clj\\'" clojure-mode clojure-mode)
+    ("\\.cljc\\'" clojure-mode clojurec-mode)
+    ("\\.cljs\\'" clojure-mode clojurescript-mode)
+    ("\\.edn\\'" clojure-mode clojure-mode)
     ("\\.cmake\\'" cmake-mode cmake-mode)
     ("CMakeLists\\.txt\\'" cmake-mode cmake-mode)
     ("\\.coffee\\'" coffee-mode coffee-mode)
     ("\\.css\\'" css-mode css-mode)
     ("\\.csv\\'" csv-mode csv-mode)
+    ("Cask" cask-mode cask-mode)
     ("\\.d\\'" d-mode d-mode)
     ("\\.dart\\'" dart-mode dart-mode)
     ("\\.elm\\'" elm-mode elm-mode)
@@ -124,10 +137,13 @@ PACKAGE is installed only if not already present.  The file is opened in MODE."
     ("\\.erl\\'" erlang erlang-mode)
     ("\\.feature\\'" feature-mode feature-mode)
     ("\\.go\\'" go-mode go-mode)
+    ("\\.graphql\\'" graphql-mode graphql-mode)
     ("\\.groovy\\'" groovy-mode groovy-mode)
     ("\\.haml\\'" haml-mode haml-mode)
     ("\\.hs\\'" haskell-mode haskell-mode)
+    ("\\.jl\\'" julia-mode julia-mode)
     ("\\.json\\'" json-mode json-mode)
+    ("\\.kt\\'" kotlin-mode kotlin-mode)
     ("\\.kv\\'" kivy-mode kivy-mode)
     ("\\.latex\\'" auctex LaTeX-mode)
     ("\\.less\\'" less-css-mode less-css-mode)
@@ -142,12 +158,12 @@ PACKAGE is installed only if not already present.  The file is opened in MODE."
     ("\\.pyi\\'" cython-mode cython-mode)
     ("\\.pyx\\'" cython-mode cython-mode)
     ("PKGBUILD\\'" pkgbuild-mode pkgbuild-mode)
+    ("\\.rkt\\'" racket-mode racket-mode)
     ("\\.rs\\'" rust-mode rust-mode)
     ("\\.sass\\'" sass-mode sass-mode)
-    ("\\.scala\\'" scala-mode2 scala-mode)
+    ("\\.scala\\'" scala-mode scala-mode)
     ("\\.scss\\'" scss-mode scss-mode)
     ("\\.slim\\'" slim-mode slim-mode)
-    ("\\.sls\\'" salt-mode salt-mode)
     ("\\.styl\\'" stylus-mode stylus-mode)
     ("\\.swift\\'" swift-mode swift-mode)
     ("\\.textile\\'" textile-mode textile-mode)
@@ -162,6 +178,12 @@ PACKAGE is installed only if not already present.  The file is opened in MODE."
   (add-to-list 'auto-mode-alist '("\\.markdown\\'" . gfm-mode))
   (add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode)))
 
+;; same with adoc-mode
+(when (package-installed-p 'adoc-mode)
+  (add-to-list 'auto-mode-alist '("\\.adoc\\'" . adoc-mode))
+  (add-to-list 'auto-mode-alist '("\\.asciidoc\\'" . adoc-mode)))
+
+;; and pkgbuild-mode
 (when (package-installed-p 'pkgbuild-mode)
   (add-to-list 'auto-mode-alist '("PKGBUILD\\'" . pkgbuild-mode)))
 
@@ -174,6 +196,12 @@ PACKAGE is installed only if not already present.  The file is opened in MODE."
      (unless (package-installed-p package)
        (malkav-auto-install extension package mode))))
  malkav-auto-install-alist)
+
+;; load git-commit
+;; not sure if this is the best place to put this, but required for this to work
+;; https://magit.vc/manual/magit/git_002dcommit_002dmode-isn_0027t-used-when-committing-from-the-command_002dline.html
+(require 'git-commit)
+(server-mode)
 
 (provide 'malkav-packages)
 
