@@ -8,14 +8,13 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   '(default))
+ '(custom-safe-themes '(default))
  '(global-font-lock-mode t)
  '(global-git-commit-mode t)
  '(inhibit-startup-screen t)
  '(markdown-command "/usr/bin/pandoc")
  '(opascal-indent-level 2)
- '(package-selected-packages '(magit git-modes flycheck))
+ '(package-selected-packages '(csv-mode magit git-modes flycheck))
  '(pascal-indent-level 2)
  '(read-file-name-completion-ignore-case nil)
  '(safe-local-variable-values
